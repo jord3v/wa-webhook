@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Webhook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/webhook', function (Request $request) {
-    return $request->hub_challenge;
+Route::post('/webhook', function (Request $request) {
+    $dataToString = json_encode($request->all());
+    Webhook::create([
+        'webhook'   => $dataToString
+    ]);
 });
